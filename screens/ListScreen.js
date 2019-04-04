@@ -1,52 +1,56 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import * as data from '../data/db.json';
+import { titleCase } from '../helpers/utils';
 
-const mapStateToProps = state => {
-  return {
-    places: state.places
-  }
-}
+import Header from '../components/Header';
+
+const mapStateToProps = state => ({
+  places: state.places,
+});
 
 class ListScreen extends Component {
-  state = {
-    data: []
-  }
+  static navigationOptions = {
+    header: props => <Header {...props} />,
+  };
 
-  componentDidMount = () => {
-    console.log(this.props);
-    this.setState({
-      data: data.features
+  goToPlaceDetail = place => {
+    const { navigation } = this.props;
+
+    navigation.navigate('Place', {
+      place,
     });
-  }
+  };
 
-  getItemKey = (item, index) => index;
+  getItemKey = (item, index) => index.toString();
 
-  renderItem = ({ item }) => {
-    return (
-      <ListItem
-        title={item.properties.nombre}
-      />
-    )
-  }
+  renderItem = ({ item }) => (
+    <ListItem
+      title={titleCase(item.properties.nombre)}
+      subtitle={titleCase(item.address)}
+      onPress={() => this.goToPlaceDetail(item)}
+      bottomDivider
+      chevron
+    />
+  );
 
   render() {
-    const { data } = this.state;
+    const { places } = this.props;
 
-    if (!data) return;
+    if (!places) return;
 
     return (
       <View>
         <FlatList
-          data={data}
+          data={places}
           keyExtractor={this.getItemKey}
-          renderItem={this.renderItem} />
+          renderItem={this.renderItem}
+        />
       </View>
-    )
+    );
   }
-};
+}
 
 export default connect(mapStateToProps)(ListScreen);
