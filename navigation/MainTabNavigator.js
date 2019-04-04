@@ -1,6 +1,9 @@
 import React from 'react';
 import { Platform } from 'react-native';
-import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
+import {
+  createStackNavigator,
+  createBottomTabNavigator,
+} from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -8,6 +11,7 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
+import PlaceScreen from '../screens/PlaceScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -28,9 +32,42 @@ HomeStack.navigationOptions = {
 };
 
 const GuideStack = createStackNavigator({
-  List: MapScreen,
-})
+  List: ListScreen,
+  Place: PlaceScreen,
+});
 
+GuideStack.navigationOptions = {
+  tabBarLabel: 'Guide',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
+
+const MapStack = createStackNavigator({
+  Map: MapScreen,
+  Place: PlaceScreen,
+});
+
+MapStack.navigationOptions = {
+  tabBarLabel: 'Map',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-information-circle${focused ? '' : '-outline'}`
+          : 'md-information-circle'
+      }
+    />
+  ),
+};
 
 const SettingsStack = createStackNavigator({
   Settings: SettingsScreen,
@@ -49,5 +86,6 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   HomeStack,
   GuideStack,
+  MapStack,
   SettingsStack,
 });
