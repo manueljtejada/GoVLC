@@ -1,13 +1,6 @@
 import { combineReducers } from 'redux';
-import { FETCH_PLACES, FETCH_VIAS } from '.';
+import places from './places';
 
-const rootReducer = (state, action) => {
-  switch (action) {
-    case FETCH_PLACES:
-      return state.places;
-    default:
-      return state;
-  }
-};
+const rootReducer = combineReducers({ places });
 
 export default rootReducer;
