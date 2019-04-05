@@ -63,7 +63,7 @@ class PlaceScreen extends Component {
             {place.address && (
               <React.Fragment>
                 <ListItem
-                  title={place.address}
+                  title={titleCase(place.address)}
                   leftIcon={{ name: 'place' }}
                   bottomDivider
                 />
