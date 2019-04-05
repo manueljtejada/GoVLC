@@ -2,9 +2,17 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { MapView } from 'expo';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../redux/actions/index';
+
+import Header from '../constants/Header';
 import { titleCase } from '../helpers/utils';
 
 class MapScreen extends Component {
+  static navigationOptions = {
+    ...Header,
+  };
+
   state = {
     region: {
       latitude: 39.4744869,
@@ -53,4 +61,10 @@ const mapStateToProps = state => ({
   places: state.places,
 });
 
-export default connect(mapStateToProps)(MapScreen);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(actionCreators, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MapScreen);

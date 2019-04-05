@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import * as actionCreators from '../redux/actions/index';
 
 import { titleCase } from '../helpers/utils';
 
 import Header from '../components/Header';
-
-const mapStateToProps = state => ({
-  places: state.places,
-});
 
 class ListScreen extends Component {
   static navigationOptions = {
@@ -53,4 +51,14 @@ class ListScreen extends Component {
   }
 }
 
-export default connect(mapStateToProps)(ListScreen);
+const mapStateToProps = state => ({
+  places: state.places,
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(actionCreators, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ListScreen);
