@@ -6130,6 +6130,13 @@ react-native-gesture-handler@~1.0.14:
     invariant "^2.2.2"
     prop-types "^15.5.10"
 
+react-native-image-header-scroll-view@^0.10.1:
+  version "0.10.1"
+  resolved "https://registry.yarnpkg.com/react-native-image-header-scroll-view/-/react-native-image-header-scroll-view-0.10.1.tgz#1dabae40d6ad85b937b723bb61351fe70db2c2e9"
+  integrity sha512-FavfZ+KhO8WaHbNK+iuPy2e6E1oUO9iqnLApYANSyTTyvnwPGKRUD0jodw/Vo5GvPsHCifcvKx157feFkP6Iaw==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-maps@expo/react-native-maps#v0.22.1-exp.0:
   version "0.22.1"
   resolved "https://codeload.github.com/expo/react-native-maps/tar.gz/e6f98ff7272e5d0a7fe974a41f28593af2d77bb2"
