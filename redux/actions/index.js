@@ -2,9 +2,11 @@ export const FETCH_PLACES = 'FETCH_PLACES';
 export const FETCH_PLACE = 'FETCH_PLACE';
 export const TOGGLE_VISITED = 'TOGGLE_VISITED';
 export const FILTER_PLACES = 'FILTER_PLACES';
+export const SEARCH_PLACES = 'SEARCH_PLACES';
 export const SORT_PLACES = 'SORT_PLACES';
 export const ADD_IMAGE = 'ADD_IMAGE';
 export const ADD_REMINDER = 'ADD_REMINDER';
+export const SET_USER_LOCATION = 'SET_USER_LOCATION';
 
 // Get all places
 export function getAllPlaces() {
@@ -36,12 +38,20 @@ export function filterPlaces(filter, data) {
   };
 }
 
+// Search places by name
+export function searchPlaces(value) {
+  return {
+    type: SEARCH_PLACES,
+    value,
+  };
+}
+
 // Sort list of places by field and order (ASC or DESC)
-export function sortPlaces(field, order) {
+export function sortPlaces(field, userLocation) {
   return {
     type: SORT_PLACES,
     field,
-    order,
+    userLocation,
   };
 }
 
@@ -59,5 +69,13 @@ export function addReminder(time, placeId) {
   return {
     type: ADD_REMINDER,
     placeId,
+  };
+}
+
+// Set user location
+export function setUserLocation(coordinates) {
+  return {
+    type: SET_USER_LOCATION,
+    coordinates,
   };
 }

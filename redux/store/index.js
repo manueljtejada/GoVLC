@@ -21,7 +21,7 @@ const places = data.features.map(place => {
   };
 });
 
-const initialState = { places };
+const initialState = { places, user: {} };
 
 const store = createStore(rootReducer, initialState);
 
