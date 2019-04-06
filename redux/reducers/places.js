@@ -31,7 +31,7 @@ function places(state = [], action) {
             (a, b) =>
               distance(
                 a.coordinates.latitude,
-                b.coordinates.longitude,
+                a.coordinates.longitude,
                 action.userLocation.user.coords.latitude,
                 action.userLocation.user.coords.longitude
               ) >
