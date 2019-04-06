@@ -6,8 +6,8 @@ import {
 } from 'react-navigation';
 
 import TabBarIcon from '../components/TabBarIcon';
+import TabLabel from '../components/TabLabel';
 import HomeScreen from '../screens/HomeScreen';
-import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
@@ -18,7 +18,7 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Home" />,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -37,7 +37,7 @@ const GuideStack = createStackNavigator({
 });
 
 GuideStack.navigationOptions = {
-  tabBarLabel: 'Guide',
+  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Guide" />,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -56,7 +56,7 @@ const MapStack = createStackNavigator({
 });
 
 MapStack.navigationOptions = {
-  tabBarLabel: 'Map',
+  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Map" />,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
@@ -74,7 +74,7 @@ const SettingsStack = createStackNavigator({
 });
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
+  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Settings" />,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
