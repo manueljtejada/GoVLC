@@ -1,12 +1,18 @@
 import React, { Component } from 'react';
-import { View, Text, Platform, Linking } from 'react-native';
+import {
+  View,
+  Text,
+  Platform,
+  Linking,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import { MapView } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, ListItem } from 'react-native-elements';
+import { Button, ListItem, Icon } from 'react-native-elements';
 import * as actionCreators from '../redux/actions/index';
 
 import { titleCase } from '../helpers/utils';
@@ -15,6 +21,11 @@ import Styles from '../constants/Styles';
 
 class PlaceScreen extends Component {
   static navigationOptions = {
+    headerRight: (
+      <TouchableWithoutFeedback onPress={() => this.props.toggleVisited()}>
+        <Icon name="bookmark-border" color="#fff" />
+      </TouchableWithoutFeedback>
+    ),
     headerTransparent: {
       position: 'absolute',
       backgroundColor: 'transparent',
@@ -34,7 +45,6 @@ class PlaceScreen extends Component {
   render() {
     const { navigation, toggleVisited } = this.props;
     const place = navigation.getParam('place');
-    console.log(place);
     return (
       <View style={Styles.fill}>
         <HeaderImageScrollView
