@@ -5,8 +5,9 @@ import {
   Platform,
   Linking,
   TouchableWithoutFeedback,
+  AsyncStorage,
 } from 'react-native';
-import { MapView } from 'expo';
+import { ImagePicker } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
@@ -16,8 +17,12 @@ import { Button, ListItem, Icon } from 'react-native-elements';
 import * as actionCreators from '../redux/actions/index';
 
 import { titleCase } from '../helpers/utils';
+import { getCameraRollPermissions } from '../helpers/permissions';
+
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
+import ImageList from '../components/ImageList';
+import PlaceAddress from '../components/PlaceAddress';
 
 class PlaceScreen extends Component {
   static navigationOptions = {
@@ -40,11 +45,92 @@ class PlaceScreen extends Component {
     headerTintColor: '#fff',
   };
 
-  state = {};
+  state = { images: [] };
+
+  componentDidMount = async () => {
+    const images = await this.getSavedImages();
+
+    if (!images) return;
+
+    this.setState({
+      images,
+    });
+  };
+
+  pickImage = async () => {
+    const { navigation } = this.props;
+    const place = navigation.getParam('place');
+
+    // First get camera roll permissions
+    await getCameraRollPermissions();
+
+    // Launch the image picker
+    const result = await ImagePicker.launchImageLibraryAsync({
+      allowsEditing: true,
+    });
+
+    if (!result.cancelled) {
+      try {
+        // First we get the images saved on AsyncStorage and make a copy
+        let savedImages = await this.getSavedImages();
+
+        // Create a new image object, grabbing the same ID as the monument, and adding the URI obtained from the Image Library
+        const image = {
+          id: place.properties.idnotes,
+          uri: result.uri,
+        };
+
+        // If there are no savedImages, create a new array with this image and save it to AsyncStorage
+        if (!savedImages) {
+          savedImages = [image];
+
+          await AsyncStorage.setItem(
+            place.properties.idnotes,
+            JSON.stringify(savedImages)
+          );
+
+          return;
+        }
+
+        // If there are savedImages, add this new image to that array
+        savedImages.push(image);
+
+        // Replace the object on AsyncStorage with the local copy
+        await AsyncStorage.setItem(
+          place.properties.idnotes,
+          JSON.stringify(savedImages)
+        );
+
+        // Finally, update state
+        this.setState({
+          images: savedImages,
+        });
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  getSavedImages = async () => {
+    const { navigation } = this.props;
+    const place = navigation.getParam('place');
+
+    try {
+      const images = await AsyncStorage.getItem(place.properties.idnotes);
+
+      if (!images) return;
+
+      return JSON.parse(images);
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   render() {
-    const { navigation, toggleVisited } = this.props;
+    const { navigation } = this.props;
+    const { images } = this.state;
     const place = navigation.getParam('place');
+
     return (
       <View style={Styles.fill}>
         <HeaderImageScrollView
@@ -53,13 +139,17 @@ class PlaceScreen extends Component {
           minOverlayOpacity={0}
           maxOverlayOpacity={0.9}
           overlayColor={Colors.tintColor}
-          headerImage={require('../assets/images/placeholder.png')}
+          headerImage={
+            images.length
+              ? { uri: images[0].uri }
+              : require('../assets/images/placeholder.png')
+          }
         >
           <TriggeringView style={Styles.container}>
             <Text style={Styles.title}>
               {titleCase(place.properties.nombre)}
             </Text>
-            {/* <Button onPress={toggleVisited} title="Mark as visited" /> */}
+
             {place.properties.telefono !== '0' && (
               <ListItem
                 title={place.properties.telefono}
@@ -70,35 +160,15 @@ class PlaceScreen extends Component {
                 bottomDivider
               />
             )}
-            {place.address && (
-              <React.Fragment>
-                <ListItem
-                  title={titleCase(place.address)}
-                  leftIcon={{ name: 'place' }}
-                  bottomDivider
-                />
-                {/* <ListItem
-                  title="Get Directions"
-                  leftIcon={{ name: 'directions' }}
-                  bottomDivider
-                /> */}
-              </React.Fragment>
-            )}
-            <MapView
-              provider="google"
-              scrollEnabled={false}
-              rotateEnabled={false}
-              zoomEnabled={false}
-              zoomTapEnabled={false}
-              initialRegion={{
-                ...place.coordinates,
-                latitudeDelta: 0.01,
-                longitudeDelta: 0.02,
-              }}
-              style={{ height: 100 }}
-            >
-              <MapView.Marker coordinate={place.coordinates} />
-            </MapView>
+
+            <PlaceAddress
+              address={place.address}
+              coordinates={place.coordinates}
+            />
+
+            <Text style={Styles.subtitle}>Photos</Text>
+            <ImageList images={images} />
+            <Button title="Add photo" onPress={this.pickImage} />
           </TriggeringView>
         </HeaderImageScrollView>
       </View>
