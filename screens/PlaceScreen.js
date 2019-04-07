@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   AsyncStorage,
 } from 'react-native';
+import PropTypes from 'prop-types';
 import { ImagePicker } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
@@ -175,6 +176,13 @@ class PlaceScreen extends Component {
     );
   }
 }
+
+PlaceScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+  toggleVisited: PropTypes.func,
+};
 
 const mapStateToProps = state => ({
   places: state.places,

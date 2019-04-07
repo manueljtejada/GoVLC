@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
 import { ListItem, SearchBar, Icon } from 'react-native-elements';
+import PropTypes from 'prop-types';
 import { Permissions, Location } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +29,9 @@ class ListScreen extends Component {
   state = { search: '', modalVisible: false };
 
   componentDidMount() {
-    this.props.navigation.setParams({
+    const { navigation } = this.props;
+
+    navigation.setParams({
       openFilters: this.setModalVisible,
     });
 
@@ -109,6 +112,15 @@ class ListScreen extends Component {
     );
   }
 }
+
+ListScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object),
+  searchPlaces: PropTypes.func,
+  setUserLocation: PropTypes.func,
+};
 
 const mapStateToProps = state => ({
   places: state.places,

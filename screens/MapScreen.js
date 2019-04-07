@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Text } from 'react-native';
+import PropTypes from 'prop-types';
 import { MapView } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -56,6 +57,13 @@ class MapScreen extends Component {
     );
   }
 }
+
+MapScreen.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+  places: PropTypes.arrayOf(PropTypes.object),
+};
 
 const mapStateToProps = state => ({
   places: state.places,
