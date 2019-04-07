@@ -1,3 +1,5 @@
+import vias from '../data/vias.json';
+
 export function titleCase(str) {
   if (!str) return;
   str = str.toLowerCase().split(' ');
@@ -24,4 +26,30 @@ export function distance(lat1, lon1, lat2, lon2) {
 
   const d = R * c;
   return d;
+}
+
+export function getCategory(place) {
+  const str = place.toLowerCase();
+
+  if (str.includes('museo') || str.includes('museu')) return 'Museums';
+  if (str.includes('iglesia')) return 'Churches';
+  if (str.includes('parroquia')) return 'Parishes';
+  if (str.includes('palacio')) return 'Palaces';
+  if (str.includes('mercado')) return 'Markets';
+  if (str.includes('jardin')) return 'Gardens';
+  if (str.includes('casa')) return 'Historical Houses';
+  if (str.includes('monumento')) return 'Monuments';
+  if (str.includes('puente')) return 'Bridges';
+
+  return 'Other';
+}
+
+export function getAddress(codvia) {
+  const via = vias.find(v => v.codvia === parseInt(codvia));
+
+  if (via) {
+    return `${via.codtipovia} ${via.nomoficial}`;
+  }
+
+  return null;
 }

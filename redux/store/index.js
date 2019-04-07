@@ -4,20 +4,19 @@ import * as utm from 'utm';
 import rootReducer from '../reducers/index';
 
 import data from '../../data/db.json';
-import vias from '../../data/vias.json';
+
+import { getCategory, getAddress } from '../../helpers/utils';
 
 const places = data.features.map(place => {
-  let address;
-  const via = vias.find(v => v.codvia === parseInt(place.properties.codvia));
-
-  if (via) {
-    address = `${via.codtipovia} ${via.nomoficial}`;
-  }
+  const address = getAddress(place.properties.codvia);
+  const category = getCategory(place.properties.nombre);
+  const coordinates = utm.toLatLon(...place.geometry.coordinates, 30, 'U');
 
   return {
     ...place,
     address,
-    coordinates: utm.toLatLon(...place.geometry.coordinates, 30, 'U'),
+    category,
+    coordinates,
   };
 });
 
