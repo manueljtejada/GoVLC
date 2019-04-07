@@ -5,6 +5,10 @@ export default {
   container: {
     padding: 20,
   },
+  row: {
+    marginBottom: 20,
+    marginTop: 20,
+  },
   title: {
     fontSize: 21,
     fontWeight: 'bold',
