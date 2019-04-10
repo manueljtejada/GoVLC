@@ -6,14 +6,12 @@ import {
   Linking,
   TouchableWithoutFeedback,
   AsyncStorage,
-  DatePickerIOS,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { ImagePicker } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
-// import DatePicker from 'react-native-datepicker';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, ListItem, Icon } from 'react-native-elements';
