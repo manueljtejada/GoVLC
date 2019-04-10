@@ -25,6 +25,7 @@ import Styles from '../constants/Styles';
 import ImageList from '../components/ImageList';
 import PlaceAddress from '../components/PlaceAddress';
 import NotificationModal from '../components/NotificationModal';
+import placeholderImage from '../assets/images/placeholder.png';
 
 class PlaceScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -155,9 +156,7 @@ class PlaceScreen extends Component {
           maxOverlayOpacity={0.9}
           overlayColor={Colors.tintColor}
           headerImage={
-            images.length
-              ? { uri: images[0].uri }
-              : require('../assets/images/placeholder.png')
+            images.length ? { uri: images[0].uri } : placeholderImage
           }
         >
           <TriggeringView style={Styles.container}>
