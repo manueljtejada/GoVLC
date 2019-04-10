@@ -6,12 +6,14 @@ import {
   Linking,
   TouchableWithoutFeedback,
   AsyncStorage,
+  DatePickerIOS,
 } from 'react-native';
 import PropTypes from 'prop-types';
 import { ImagePicker } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
+// import DatePicker from 'react-native-datepicker';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, ListItem, Icon } from 'react-native-elements';
@@ -24,6 +26,7 @@ import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import ImageList from '../components/ImageList';
 import PlaceAddress from '../components/PlaceAddress';
+import NotificationModal from '../components/NotificationModal';
 
 class PlaceScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -49,7 +52,7 @@ class PlaceScreen extends Component {
     };
   };
 
-  state = { images: [] };
+  state = { images: [], modalVisible: false };
 
   componentDidMount = async () => {
     const { navigation, toggleVisited } = this.props;
@@ -134,9 +137,13 @@ class PlaceScreen extends Component {
     }
   };
 
+  setModalVisible = visible => {
+    this.setState({ modalVisible: visible });
+  };
+
   render() {
     const { navigation } = this.props;
-    const { images } = this.state;
+    const { images, modalVisible } = this.state;
     const place = navigation.getParam('place');
 
     return (
@@ -177,6 +184,17 @@ class PlaceScreen extends Component {
             <Text style={Styles.subtitle}>Photos</Text>
             <ImageList images={images} />
             <Button title="Add photo" onPress={this.pickImage} />
+
+            <Text style={Styles.subtitle}>Photos</Text>
+            <Button
+              title="Set up reminder"
+              onPress={() => this.setModalVisible(true)}
+            />
+            <NotificationModal
+              modalVisible={modalVisible}
+              setModalVisible={this.setModalVisible}
+              place={place}
+            />
           </TriggeringView>
         </HeaderImageScrollView>
       </View>
