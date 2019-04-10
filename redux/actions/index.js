@@ -30,13 +30,13 @@ export function toggleVisited(id) {
 }
 
 // Filter list of places
-export function filterPlaces(filter, data) {
-  return {
-    type: FILTER_PLACES,
-    filter,
-    data,
-  };
-}
+// export function filterPlaces(filter, value) {
+//   return {
+//     type: FILTER_PLACES,
+//     filter,
+//     value,
+//   };
+// }
 
 // Search places by name
 export function searchPlaces(value) {
@@ -47,13 +47,13 @@ export function searchPlaces(value) {
 }
 
 // Sort list of places by field and order (ASC or DESC)
-export function sortPlaces(field, userLocation) {
-  return {
-    type: SORT_PLACES,
-    field,
-    userLocation,
-  };
-}
+// export function sortPlaces(field, userLocation) {
+//   return {
+//     type: SORT_PLACES,
+//     field,
+//     userLocation,
+//   };
+// }
 
 // Add an image to a place
 export function addImage(image, placeId) {

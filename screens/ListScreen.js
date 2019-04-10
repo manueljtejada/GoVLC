@@ -9,7 +9,7 @@ import * as actionCreators from '../redux/actions/index';
 
 import Filters from '../components/Filters';
 
-import { titleCase } from '../helpers/utils';
+import { titleCase, distance } from '../helpers/utils';
 import Header from '../constants/Header';
 
 class ListScreen extends Component {
@@ -26,7 +26,13 @@ class ListScreen extends Component {
     };
   };
 
-  state = { search: '', modalVisible: false };
+  state = {
+    search: '',
+    modalVisible: false,
+    filteredPlaces: null,
+    activeFilter: null,
+    activeSort: null,
+  };
 
   componentDidMount() {
     const { navigation } = this.props;
@@ -68,11 +74,57 @@ class ListScreen extends Component {
   };
 
   updateSearch = search => {
-    const { searchPlaces } = this.props;
+    const { places } = this.props;
 
-    this.setState({ search });
+    const filteredPlaces = places.filter(place =>
+      place.properties.nombre.toLowerCase().includes(search.toLowerCase())
+    );
 
-    searchPlaces(search);
+    this.setState({ search, filteredPlaces });
+  };
+
+  filterPlaces = (filter, value) => {
+    const { places } = this.props;
+
+    const activeFilter = filter;
+
+    const filteredPlaces = places.filter(
+      place => place[filter].toLowerCase() === value
+    );
+
+    this.setState({ activeFilter, filteredPlaces });
+  };
+
+  sortPlaces = (field, userLocation) => {
+    let filteredPlaces;
+    const { places } = this.props;
+    const activeSort = field;
+
+    if (field === 'distance' && userLocation) {
+      filteredPlaces = [...places].sort(
+        (a, b) =>
+          distance(
+            a.coordinates.latitude,
+            a.coordinates.longitude,
+            userLocation.user.coords.latitude,
+            userLocation.user.coords.longitude
+          ) >
+          distance(
+            b.coordinates.latitude,
+            b.coordinates.longitude,
+            userLocation.user.coords.latitude,
+            userLocation.user.coords.longitude
+          )
+      );
+    }
+
+    if (field === 'name') {
+      filteredPlaces = [...places].sort(
+        (a, b) => a.properties.nombre > b.properties.nombre
+      );
+    }
+
+    this.setState({ filteredPlaces, activeSort });
   };
 
   renderItem = ({ item }) => (
@@ -87,7 +139,13 @@ class ListScreen extends Component {
 
   render() {
     const { places } = this.props;
-    const { search, modalVisible } = this.state;
+    const {
+      search,
+      modalVisible,
+      filteredPlaces,
+      activeFilter,
+      activeSort,
+    } = this.state;
 
     if (!places) return;
 
@@ -96,6 +154,10 @@ class ListScreen extends Component {
         <Filters
           setModalVisible={this.setModalVisible}
           modalVisible={modalVisible}
+          filterPlaces={this.filterPlaces}
+          sortPlaces={this.sortPlaces}
+          activeFilter={activeFilter}
+          activeSort={activeSort}
         />
         <SearchBar
           placeholder="Search for monuments..."
@@ -104,7 +166,7 @@ class ListScreen extends Component {
           platform="ios"
         />
         <FlatList
-          data={places}
+          data={filteredPlaces || places}
           keyExtractor={this.getItemKey}
           renderItem={this.renderItem}
         />
@@ -124,6 +186,10 @@ ListScreen.propTypes = {
 
 const mapStateToProps = state => ({
   places: state.places,
+  // filteredPlaces: state.places.filter(item => {
+  //   if (!item.properties) return;
+  //   return item.properties.nombre.includes(state.searchText);
+  // }),
 });
 
 const mapDispatchToProps = dispatch =>
