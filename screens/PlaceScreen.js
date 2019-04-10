@@ -26,29 +26,36 @@ import ImageList from '../components/ImageList';
 import PlaceAddress from '../components/PlaceAddress';
 
 class PlaceScreen extends Component {
-  static navigationOptions = {
-    headerRight: (
-      <TouchableWithoutFeedback onPress={() => this.props.toggleVisited()}>
-        <Icon name="bookmark-border" color="#fff" />
-      </TouchableWithoutFeedback>
-    ),
-    headerTransparent: {
-      position: 'absolute',
-      backgroundColor: 'transparent',
-      zIndex: 100,
-      top: 0,
-      left: 0,
-      right: 0,
-    },
-    headerBackTitleStyle: {
-      color: '#fff',
-    },
-    headerTintColor: '#fff',
+  static navigationOptions = ({ navigation }) => {
+    const { params = {} } = navigation.state;
+    return {
+      headerRight: (
+        <TouchableWithoutFeedback onPress={params.toggleVisited}>
+          <Icon name="bookmark-border" color="#fff" />
+        </TouchableWithoutFeedback>
+      ),
+      headerTransparent: {
+        position: 'absolute',
+        backgroundColor: 'transparent',
+        zIndex: 100,
+        top: 0,
+        left: 0,
+        right: 0,
+      },
+      headerBackTitleStyle: {
+        color: '#fff',
+      },
+      headerTintColor: '#fff',
+    };
   };
 
   state = { images: [] };
 
   componentDidMount = async () => {
+    const { navigation, toggleVisited } = this.props;
+
+    navigation.setParams({ toggleVisited });
+
     const images = await this.getSavedImages();
 
     if (!images) return;
