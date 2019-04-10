@@ -53,10 +53,12 @@ class PlaceScreen extends Component {
   state = { images: [], modalVisible: false };
 
   componentDidMount = async () => {
+    // Bind the `toggleVisited` method to the navigation params state
+    // in order to use it inside the navigationOptions
     const { navigation, toggleVisited } = this.props;
-
     navigation.setParams({ toggleVisited });
 
+    // Get a list of saved images for this place and save to state
     const images = await this.getSavedImages();
 
     if (!images) return;
