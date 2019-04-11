@@ -184,12 +184,6 @@ class PlaceScreen extends Component {
             <Text style={Styles.subtitle}>Photos</Text>
             <ImageList images={images} />
             <Button title="Add photo" onPress={this.pickImage} />
-
-            <Text style={Styles.subtitle}>Photos</Text>
-            <Button
-              title="Set up reminder"
-              onPress={() => this.setModalVisible(true)}
-            />
             <NotificationModal
               modalVisible={modalVisible}
               setModalVisible={this.setModalVisible}
