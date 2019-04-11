@@ -65,13 +65,13 @@ class NotificationModal extends Component {
           <View>
             <Header backgroundColor={Colors.tintColor}>
               <TouchableHighlight onPress={() => setModalVisible(false)}>
-                <Text>Cancel</Text>
+                <Text style={Styles.white}>Cancel</Text>
               </TouchableHighlight>
-              <Text>Filter</Text>
+              <Text style={Styles.headerTitle}>Add Reminder</Text>
               <TouchableHighlight
                 onPress={() => this.scheduleNotification(chosenDate, place)}
               >
-                <Text>Done</Text>
+                <Text style={Styles.white}>Done</Text>
               </TouchableHighlight>
             </Header>
 

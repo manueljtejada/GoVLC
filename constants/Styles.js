@@ -19,4 +19,12 @@ export default {
     fontWeight: 'bold',
     marginBottom: 10,
   },
+  white: {
+    color: '#fff',
+  },
+  headerTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#fff',
+  },
 };

@@ -32,8 +32,8 @@ class PlaceScreen extends Component {
     const { params = {} } = navigation.state;
     return {
       headerRight: (
-        <TouchableWithoutFeedback onPress={params.toggleVisited}>
-          <Icon name="bookmark-border" color="#fff" />
+        <TouchableWithoutFeedback onPress={() => params.setModalVisible(true)}>
+          <Icon name="notifications-none" color="#fff" />
         </TouchableWithoutFeedback>
       ),
       headerTransparent: {
@@ -57,7 +57,8 @@ class PlaceScreen extends Component {
     // Bind the `toggleVisited` method to the navigation params state
     // in order to use it inside the navigationOptions
     const { navigation, toggleVisited } = this.props;
-    navigation.setParams({ toggleVisited });
+    const { setModalVisible } = this;
+    navigation.setParams({ toggleVisited, setModalVisible });
 
     // Get a list of saved images for this place and save to state
     const images = await this.getSavedImages();

@@ -39,10 +39,10 @@ class Filters extends Component {
           <View>
             <Header backgroundColor={Colors.tintColor}>
               <TouchableHighlight onPress={() => setModalVisible(false)}>
-                <Text>Cancel</Text>
+                <Text style={Styles.white}>Cancel</Text>
               </TouchableHighlight>
-              <Text>Filter</Text>
-              <Text>Search</Text>
+              <Text style={Styles.headerTitle}>Filter</Text>
+              <Text style={Styles.white}>Search</Text>
             </Header>
 
             <View style={Styles.container}>
