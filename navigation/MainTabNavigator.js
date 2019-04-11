@@ -13,24 +13,6 @@ import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
 import PlaceScreen from '../screens/PlaceScreen';
 
-const HomeStack = createStackNavigator({
-  Home: HomeScreen,
-});
-
-HomeStack.navigationOptions = {
-  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Home" />,
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
-
 const GuideStack = createStackNavigator({
   List: ListScreen,
   Place: PlaceScreen,
@@ -41,11 +23,7 @@ GuideStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? `ios-search` : 'md-search'}
     />
   ),
 };
@@ -60,11 +38,7 @@ MapStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? `ios-map` : 'md-map'}
     />
   ),
 };
@@ -84,7 +58,6 @@ SettingsStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
-  HomeStack,
   GuideStack,
   MapStack,
   SettingsStack,

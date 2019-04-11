@@ -12,6 +12,7 @@ import Styles from '../constants/Styles';
 
 class MapScreen extends Component {
   static navigationOptions = {
+    title: 'Map',
     ...Header,
   };
 
