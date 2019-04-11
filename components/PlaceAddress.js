@@ -1,18 +1,25 @@
 import React from 'react';
-import { View } from 'react-native';
+import { View, ColorPropType } from 'react-native';
 import { MapView } from 'expo';
 import { ListItem } from 'react-native-elements';
 import PropTypes from 'prop-types';
 
 import { titleCase } from '../helpers/utils';
 import Styles from '../constants/Styles';
+import Colors from '../constants/Colors';
 
 const PlaceAddress = ({ address, coordinates }) => (
-  <View style={Styles.row}>
+  <View style={{ ...Styles.row, marginTop: 0 }}>
     {address && (
       <ListItem
         title={titleCase(address)}
-        leftIcon={{ name: 'place' }}
+        titleStyle={{ fontSize: 15 }}
+        leftIcon={{ name: 'place', color: Colors.tintColor }}
+        containerStyle={{
+          paddingHorizontal: 0,
+          paddingVertical: 10,
+          marginBottom: 20,
+        }}
         bottomDivider
       />
     )}

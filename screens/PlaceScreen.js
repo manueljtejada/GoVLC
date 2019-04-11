@@ -167,12 +167,19 @@ class PlaceScreen extends Component {
 
             {place.properties.telefono !== '0' && (
               <ListItem
+                bottomDivider
+                chevron
                 title={place.properties.telefono}
-                leftIcon={{ name: 'phone' }}
+                leftIcon={{ name: 'phone', color: Colors.tintColor }}
+                titleStyle={{ color: Colors.tintColor, fontSize: 15 }}
+                containerStyle={{
+                  paddingHorizontal: 0,
+                  paddingVertical: 10,
+                  marginBottom: 0,
+                }}
                 onPress={() =>
                   Linking.openURL(`tel:+34${place.properties.telefono}`)
                 }
-                bottomDivider
               />
             )}
 
@@ -183,7 +190,11 @@ class PlaceScreen extends Component {
 
             <Text style={Styles.subtitle}>Photos</Text>
             <ImageList images={images} />
-            <Button title="Add photo" onPress={this.pickImage} />
+            <Button
+              title="Add photo"
+              onPress={this.pickImage}
+              buttonStyle={Styles.buttons.primary}
+            />
             <NotificationModal
               modalVisible={modalVisible}
               setModalVisible={this.setModalVisible}

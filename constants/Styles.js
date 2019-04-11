@@ -14,7 +14,7 @@ export default {
   title: {
     fontSize: 21,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   subtitle: {
     fontSize: 17,
@@ -36,5 +36,10 @@ export default {
   mapItemAddress: {
     fontSize: 13,
     color: Colors.grayLight,
+  },
+  buttons: {
+    primary: {
+      backgroundColor: Colors.tintColor,
+    },
   },
 };
