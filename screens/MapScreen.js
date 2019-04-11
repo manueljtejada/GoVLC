@@ -8,6 +8,7 @@ import * as actionCreators from '../redux/actions/index';
 
 import Header from '../constants/Header';
 import { titleCase } from '../helpers/utils';
+import Styles from '../constants/Styles';
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -48,8 +49,12 @@ class MapScreen extends Component {
         {places.map((marker, index) => (
           <MapView.Marker key={index} coordinate={marker.coordinates}>
             <MapView.Callout onPress={() => this.goToPlaceDetail(marker)}>
-              <Text>{titleCase(marker.properties.nombre)}</Text>
-              <Text>{titleCase(marker.address)}</Text>
+              <Text style={Styles.mapItemTitle}>
+                {titleCase(marker.properties.nombre)}
+              </Text>
+              <Text style={Styles.mapItemAddress}>
+                {titleCase(marker.address)}
+              </Text>
             </MapView.Callout>
           </MapView.Marker>
         ))}

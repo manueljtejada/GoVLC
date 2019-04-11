@@ -1,3 +1,5 @@
+import Colors from './Colors';
+
 export default {
   fill: {
     flex: 1,
@@ -26,5 +28,13 @@ export default {
     fontSize: 18,
     fontWeight: 'bold',
     color: '#fff',
+  },
+  mapItemTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  mapItemAddress: {
+    fontSize: 13,
+    color: Colors.grayLight,
   },
 };
