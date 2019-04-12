@@ -8,13 +8,13 @@ import {
   AsyncStorage,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { ImagePicker } from 'expo';
+import { ImagePicker, Icon } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, ListItem, Icon } from 'react-native-elements';
+import { Button, ListItem } from 'react-native-elements';
 import * as actionCreators from '../redux/actions/index';
 
 import { titleCase } from '../helpers/utils';
@@ -26,15 +26,24 @@ import ImageList from '../components/ImageList';
 import PlaceAddress from '../components/PlaceAddress';
 import NotificationModal from '../components/NotificationModal';
 import placeholderImage from '../assets/images/placeholder.png';
+import CheckInButton from '../components/CheckInButton';
 
 class PlaceScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state;
     return {
       headerRight: (
-        <TouchableWithoutFeedback onPress={() => params.setModalVisible(true)}>
-          <Icon name="notifications-none" color="#fff" />
-        </TouchableWithoutFeedback>
+        <View style={{ flexDirection: 'row', marginRight: 10 }}>
+          <TouchableWithoutFeedback
+            onPress={() => params.setReminderModalVisible(true)}
+          >
+            <Icon.Ionicons
+              name="ios-notifications-outline"
+              color="#fff"
+              size={32}
+            />
+          </TouchableWithoutFeedback>
+        </View>
       ),
       headerTransparent: {
         position: 'absolute',
@@ -51,14 +60,26 @@ class PlaceScreen extends Component {
     };
   };
 
-  state = { images: [], modalVisible: false };
+  state = {
+    images: [],
+    reminderModalVisible: false,
+    visited: null,
+  };
 
   componentDidMount = async () => {
+    await this.getCheckInStatus();
+
     // Bind the `toggleVisited` method to the navigation params state
     // in order to use it inside the navigationOptions
     const { navigation, toggleVisited } = this.props;
-    const { setModalVisible } = this;
-    navigation.setParams({ toggleVisited, setModalVisible });
+    const { visited } = this.state;
+    const { setReminderModalVisible, toggleCheckIn } = this;
+    navigation.setParams({
+      toggleVisited,
+      setReminderModalVisible,
+      toggleCheckIn,
+      visited,
+    });
 
     // Get a list of saved images for this place and save to state
     const images = await this.getSavedImages();
@@ -68,6 +89,78 @@ class PlaceScreen extends Component {
     this.setState({
       images,
     });
+  };
+
+  getCheckInStatus = async () => {
+    const { navigation } = this.props;
+    const place = navigation.getParam('place');
+
+    const visitedPlaces = await this.getVisitedPlaces();
+
+    // If there are no liked experiences yet, exit
+    if (!visitedPlaces) return;
+
+    // Get list of saved IDs
+    const visitedPlacesIds = visitedPlaces.map(p => p.properties.idnotes);
+
+    console.log(visitedPlacesIds.includes(place.properties.idnotes));
+
+    // Check if experience is in list and set state accordingly
+    this.setState({
+      visited: visitedPlacesIds.includes(place.properties.idnotes),
+    });
+  };
+
+  toggleCheckIn = async () => {
+    const { navigation } = this.props;
+    const { visited } = this.state;
+    const place = navigation.getParam('place');
+    const today = new Date();
+
+    try {
+      let visitedPlaces = await this.getVisitedPlaces();
+
+      const placeToSave = {
+        ...place,
+        date: today,
+      };
+
+      if (!visitedPlaces) {
+        visitedPlaces = [placeToSave];
+
+        await AsyncStorage.setItem(
+          '@visitedPlaces',
+          JSON.stringify(visitedPlaces)
+        );
+
+        return;
+      }
+
+      // Get IDs of liked experiences
+      const visitedPlacesIds = visitedPlaces.map(p => p.properties.idnotes);
+
+      // If this experience is already in AsyncStorage,
+      // we remove it, otherwise we push it to the array
+      if (visitedPlacesIds.includes(place.properties.idnotes)) {
+        visitedPlaces = visitedPlaces.filter(
+          p => p.properties.idnotes !== place.properties.idnotes
+        );
+      } else {
+        visitedPlaces.push(placeToSave);
+      }
+
+      await AsyncStorage.setItem(
+        '@visitedPlaces',
+        JSON.stringify(visitedPlaces)
+      );
+
+      this.setState({
+        visited: !visited,
+      });
+    } catch (err) {
+      console.error(err);
+      alert(err);
+    }
   };
 
   pickImage = async () => {
@@ -139,13 +232,25 @@ class PlaceScreen extends Component {
     }
   };
 
-  setModalVisible = visible => {
-    this.setState({ modalVisible: visible });
+  getVisitedPlaces = async () => {
+    try {
+      const visitedPlaces = await AsyncStorage.getItem('@visitedPlaces');
+
+      if (!visitedPlaces) return [];
+
+      return JSON.parse(visitedPlaces);
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  setReminderModalVisible = visible => {
+    this.setState({ reminderModalVisible: visible });
   };
 
   render() {
     const { navigation } = this.props;
-    const { images, modalVisible } = this.state;
+    const { images, reminderModalVisible } = this.state;
     const place = navigation.getParam('place');
 
     return (
@@ -161,9 +266,15 @@ class PlaceScreen extends Component {
           }
         >
           <TriggeringView style={Styles.container}>
-            <Text style={Styles.title}>
-              {titleCase(place.properties.nombre)}
-            </Text>
+            <View
+              style={{ flexDirection: 'row', justifyContent: 'space-between' }}
+            >
+              <Text style={Styles.title}>
+                {titleCase(place.properties.nombre)}
+              </Text>
+
+              <CheckInButton handlePress={this.toggleCheckIn} />
+            </View>
 
             {place.properties.telefono !== '0' && (
               <ListItem
@@ -196,8 +307,8 @@ class PlaceScreen extends Component {
               buttonStyle={Styles.buttons.primary}
             />
             <NotificationModal
-              modalVisible={modalVisible}
-              setModalVisible={this.setModalVisible}
+              modalVisible={reminderModalVisible}
+              setModalVisible={this.setReminderModalVisible}
               place={place}
             />
           </TriggeringView>
