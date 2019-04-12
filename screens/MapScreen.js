@@ -9,6 +9,7 @@ import * as actionCreators from '../redux/actions/index';
 import Header from '../constants/Header';
 import { titleCase } from '../helpers/utils';
 import Styles from '../constants/Styles';
+import { getLocationPermissions } from '../helpers/permissions';
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -33,6 +34,10 @@ class MapScreen extends Component {
     });
   };
 
+  componentDidMount = async () => {
+    await getLocationPermissions();
+  };
+
   render() {
     const { places } = this.props;
     const { region } = this.state;
@@ -49,7 +54,10 @@ class MapScreen extends Component {
       >
         {places.map((marker, index) => (
           <MapView.Marker key={index} coordinate={marker.coordinates}>
-            <MapView.Callout onPress={() => this.goToPlaceDetail(marker)}>
+            <MapView.Callout
+              style={{ maxWidth: 200 }}
+              onPress={() => this.goToPlaceDetail(marker)}
+            >
               <Text style={Styles.mapItemTitle}>
                 {titleCase(marker.properties.nombre)}
               </Text>
