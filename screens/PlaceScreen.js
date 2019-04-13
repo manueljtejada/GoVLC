@@ -27,6 +27,7 @@ import PlaceAddress from '../components/PlaceAddress';
 import NotificationModal from '../components/NotificationModal';
 import placeholderImage from '../assets/images/placeholder.png';
 import CheckInButton from '../components/CheckInButton';
+import CameraModal from '../components/CameraModal';
 
 class PlaceScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -63,6 +64,7 @@ class PlaceScreen extends Component {
   state = {
     images: [],
     reminderModalVisible: false,
+    cameraOpen: false,
     visited: null,
   };
 
@@ -217,6 +219,10 @@ class PlaceScreen extends Component {
     }
   };
 
+  openCamera = visible => {
+    this.setState({ cameraOpen: visible });
+  };
+
   getSavedImages = async () => {
     const { navigation } = this.props;
     const place = navigation.getParam('place');
@@ -250,7 +256,7 @@ class PlaceScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { visited, images, reminderModalVisible } = this.state;
+    const { visited, images, reminderModalVisible, cameraOpen } = this.state;
     const place = navigation.getParam('place');
 
     return (
@@ -306,9 +312,10 @@ class PlaceScreen extends Component {
             <ImageList images={images} />
             <Button
               title="Add photo"
-              onPress={this.pickImage}
+              onPress={() => this.openCamera(true)}
               buttonStyle={Styles.buttons.primary}
             />
+            <CameraModal modalVisible={cameraOpen} />
             <NotificationModal
               modalVisible={reminderModalVisible}
               setModalVisible={this.setReminderModalVisible}
