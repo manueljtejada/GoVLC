@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'expo';
+import Colors from '../constants/Colors';
 
 const styles = StyleSheet.create({
   default: {
@@ -8,25 +9,20 @@ const styles = StyleSheet.create({
   },
 
   visited: {
-    color: '#EF605D',
+    color: Colors.secondaryColor,
   },
 });
 
 class CheckInButton extends Component {
-  state = {
-    visited: false,
-  };
-
   render() {
-    const { visited } = this.state;
-    const { handlePress } = this.props;
+    const { visited, handlePress } = this.props;
 
     return (
-      <TouchableOpacity
-        onPress={() => this.setState({ visited: !visited }, handlePress)}
-      >
+      <TouchableOpacity onPress={handlePress}>
         <Icon.Ionicons
-          name={visited ? 'ios-star' : 'ios-star-outline'}
+          name={
+            visited ? 'ios-checkmark-circle' : 'ios-checkmark-circle-outline'
+          }
           size={30}
           style={visited ? styles.visited : styles.default}
         />

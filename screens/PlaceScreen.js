@@ -250,7 +250,7 @@ class PlaceScreen extends Component {
 
   render() {
     const { navigation } = this.props;
-    const { images, reminderModalVisible } = this.state;
+    const { visited, images, reminderModalVisible } = this.state;
     const place = navigation.getParam('place');
 
     return (
@@ -273,7 +273,10 @@ class PlaceScreen extends Component {
                 {titleCase(place.properties.nombre)}
               </Text>
 
-              <CheckInButton handlePress={this.toggleCheckIn} />
+              <CheckInButton
+                handlePress={this.toggleCheckIn}
+                visited={visited}
+              />
             </View>
 
             {place.properties.telefono !== '0' && (
