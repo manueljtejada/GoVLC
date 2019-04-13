@@ -165,57 +165,51 @@ class PlaceScreen extends Component {
     }
   };
 
-  pickImage = async () => {
+  saveImage = async image => {
     const { navigation } = this.props;
     const place = navigation.getParam('place');
 
-    // First get camera roll permissions
-    await getCameraRollPermissions();
+    try {
+      // First we get the images saved on AsyncStorage and make a copy
+      let savedImages = await this.getSavedImages();
 
-    // Launch the image picker
-    const result = await ImagePicker.launchImageLibraryAsync({
-      allowsEditing: true,
-    });
+      // Use the image name as its unique ID
+      const { uri } = image;
+      const id = uri.split('/').pop();
 
-    if (!result.cancelled) {
-      try {
-        // First we get the images saved on AsyncStorage and make a copy
-        let savedImages = await this.getSavedImages();
+      // Create a new image object, grabbing the same ID as the monument, and adding the URI obtained from the Image Library
+      const imageToSave = { id, uri };
 
-        // Create a new image object, grabbing the same ID as the monument, and adding the URI obtained from the Image Library
-        const image = {
-          id: place.properties.idnotes,
-          uri: result.uri,
-        };
+      console.log('Saving... ', imageToSave);
 
-        // If there are no savedImages, create a new array with this image and save it to AsyncStorage
-        if (!savedImages) {
-          savedImages = [image];
+      // If there are no savedImages, create a new array with this image and save it to AsyncStorage
+      if (!savedImages) {
+        savedImages = [imageToSave];
 
-          await AsyncStorage.setItem(
-            place.properties.idnotes,
-            JSON.stringify(savedImages)
-          );
-
-          return;
-        }
-
-        // If there are savedImages, add this new image to that array
-        savedImages.push(image);
-
-        // Replace the object on AsyncStorage with the local copy
         await AsyncStorage.setItem(
           place.properties.idnotes,
           JSON.stringify(savedImages)
         );
 
-        // Finally, update state
-        this.setState({
-          images: savedImages,
-        });
-      } catch (e) {
-        console.error(e);
+        return;
       }
+
+      // If there are savedImages, add this new image to that array
+      savedImages.push(image);
+
+      // Replace the object on AsyncStorage with the local copy
+      await AsyncStorage.setItem(
+        place.properties.idnotes,
+        JSON.stringify(savedImages)
+      );
+
+      // Finally, update state
+      this.setState({
+        images: savedImages,
+      });
+    } catch (e) {
+      console.log(e);
+      alert('An error has occured');
     }
   };
 
@@ -315,7 +309,11 @@ class PlaceScreen extends Component {
               onPress={() => this.openCamera(true)}
               buttonStyle={Styles.buttons.primary}
             />
-            <CameraModal modalVisible={cameraOpen} />
+            <CameraModal
+              modalVisible={cameraOpen}
+              openCamera={this.openCamera}
+              saveImage={this.saveImage}
+            />
             <NotificationModal
               modalVisible={reminderModalVisible}
               setModalVisible={this.setReminderModalVisible}
