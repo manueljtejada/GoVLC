@@ -35,3 +35,18 @@ export const getNotificationsPermissions = async () => {
   }
   return true;
 };
+
+export const getLocationPermissions = async () => {
+  const { status: existingStatus } = await Permissions.getAsync(
+    Permissions.LOCATION
+  );
+  let finalStatus = existingStatus;
+  if (existingStatus !== 'granted') {
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    finalStatus = status;
+  }
+  if (finalStatus !== 'granted') {
+    return false;
+  }
+  return true;
+};
