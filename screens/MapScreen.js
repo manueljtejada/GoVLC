@@ -10,6 +10,7 @@ import Header from '../constants/Header';
 import { titleCase } from '../helpers/utils';
 import Styles from '../constants/Styles';
 import { getLocationPermissions } from '../helpers/permissions';
+import Colors from '../constants/Colors';
 
 class MapScreen extends Component {
   static navigationOptions = {
@@ -53,7 +54,12 @@ class MapScreen extends Component {
         showsMyLocationButton
       >
         {places.map((marker, index) => (
-          <MapView.Marker key={index} coordinate={marker.coordinates}>
+          <MapView.Marker
+            key={index}
+            coordinate={marker.coordinates}
+            pinColor={Colors.secondaryColor}
+            flat
+          >
             <MapView.Callout
               style={{ maxWidth: 200 }}
               onPress={() => this.goToPlaceDetail(marker)}
