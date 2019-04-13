@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { ListItem, SearchBar, Icon } from 'react-native-elements';
+import { ListItem, SearchBar } from 'react-native-elements';
 import PropTypes from 'prop-types';
-import { Permissions, Location } from 'expo';
+import { Permissions, Location, Icon } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../redux/actions/index';
@@ -19,9 +19,11 @@ class ListScreen extends Component {
     return {
       title: 'GoVLC',
       headerRight: (
-        <TouchableWithoutFeedback onPress={() => params.openFilters(true)}>
-          <Icon name="filter-list" color="#fff" />
-        </TouchableWithoutFeedback>
+        <View style={{ marginRight: 10 }}>
+          <TouchableWithoutFeedback onPress={() => params.openFilters(true)}>
+            <Icon.Ionicons name="ios-options" size={21} color="#fff" />
+          </TouchableWithoutFeedback>
+        </View>
       ),
       ...Header,
     };
