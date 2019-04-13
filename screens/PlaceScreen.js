@@ -105,8 +105,6 @@ class PlaceScreen extends Component {
     // Get list of saved IDs
     const visitedPlacesIds = visitedPlaces.map(p => p.properties.idnotes);
 
-    console.log(visitedPlacesIds.includes(place.properties.idnotes));
-
     // Check if experience is in list and set state accordingly
     this.setState({
       visited: visitedPlacesIds.includes(place.properties.idnotes),
@@ -179,8 +177,6 @@ class PlaceScreen extends Component {
 
       // Create a new image object, grabbing the same ID as the monument, and adding the URI obtained from the Image Library
       const imageToSave = { id, uri };
-
-      console.log('Saving... ', imageToSave);
 
       // If there are no savedImages, create a new array with this image and save it to AsyncStorage
       if (!savedImages) {
