@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ListItem, CheckBox } from 'react-native-elements';
+import Colors from '../constants/Colors';
 
 class FilterItem extends Component {
   render() {
@@ -13,10 +14,16 @@ class FilterItem extends Component {
           <CheckBox
             checkedIcon="dot-circle-o"
             uncheckedIcon="circle-o"
+            checkedColor={Colors.secondaryColor}
             checked={active}
             onPress={handlePress}
           />
         }
+        containerStyle={{
+          paddingHorizontal: 0,
+          paddingVertical: 0,
+          marginBottom: 0,
+        }}
       />
     );
   }

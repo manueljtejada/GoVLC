@@ -7,6 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { Header, Button } from 'react-native-elements';
+import { Icon } from 'expo';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Colors from '../constants/Colors';
@@ -29,20 +30,22 @@ class Filters extends Component {
     } = this.props;
 
     return (
-      <ScrollView style={{ marginTop: 22 }}>
+      <View style={{ marginTop: 22 }}>
         <Modal
           animationType="slide"
           transparent={false}
           containerStyle={{ backgroundColor: Colors.tintColor }}
           visible={modalVisible}
         >
-          <View>
+          <ScrollView>
             <Header backgroundColor={Colors.tintColor}>
               <TouchableHighlight onPress={() => setModalVisible(false)}>
                 <Text style={Styles.white}>Cancel</Text>
               </TouchableHighlight>
               <Text style={Styles.headerTitle}>Filter</Text>
-              <Text style={Styles.white}>Search</Text>
+              <TouchableHighlight onPress={() => setModalVisible(false)}>
+                <Text style={Styles.white}>Search</Text>
+              </TouchableHighlight>
             </Header>
 
             <View style={Styles.container}>
@@ -58,24 +61,21 @@ class Filters extends Component {
                 active={activeSort === 'distance'}
               />
 
-              <Text style={Styles.subtitle}>Category</Text>
+              <Text style={{ ...Styles.subtitle, marginTop: 30 }}>
+                Category
+              </Text>
               {categories.map(cat => (
-                <Button
-                  key={cat.value}
+                <FilterItem
+                  key={cat.title}
                   title={cat.title}
-                  onPress={() => filterPlaces('category', cat.value)}
-                  style={{ marginBottom: 15 }}
+                  active={activeFilter === cat.value}
+                  handlePress={() => filterPlaces('category', cat.value)}
                 />
               ))}
-              <FilterItem title="Name" handlePress={() => sortPlaces('name')} />
-              <FilterItem
-                title="Distance"
-                handlePress={() => sortPlaces('distance', userLocation)}
-              />
             </View>
-          </View>
+          </ScrollView>
         </Modal>
-      </ScrollView>
+      </View>
     );
   }
 }

@@ -89,11 +89,13 @@ class ListScreen extends Component {
   filterPlaces = (filter, value) => {
     const { places } = this.props;
 
-    const activeFilter = filter;
+    const activeFilter = value;
 
     const filteredPlaces = places.filter(
       place => place[filter].toLowerCase() === value
     );
+
+    console.log('active filter: ', activeFilter);
 
     this.setState({ activeFilter, filteredPlaces });
   };
@@ -168,6 +170,7 @@ class ListScreen extends Component {
           onChangeText={this.updateSearch}
           value={search}
           platform="ios"
+          containerStyle={{ marginTop: -20 }}
         />
         <FlatList
           data={filteredPlaces || places}
