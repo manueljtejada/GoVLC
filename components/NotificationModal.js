@@ -3,12 +3,14 @@ import {
   View,
   Text,
   ScrollView,
+  Platform,
   Modal,
   TouchableHighlight,
   DatePickerIOS,
 } from 'react-native';
 import { Notifications } from 'expo';
-import { Header } from 'react-native-elements';
+import { Header, Button } from 'react-native-elements';
+import DatePicker from 'react-native-datepicker';
 import PropTypes from 'prop-types';
 
 import { getNotificationsPermissions } from '../helpers/permissions';
@@ -21,6 +23,8 @@ class NotificationModal extends Component {
   };
 
   scheduleNotification = async (date, place) => {
+    const { setModalVisible } = this.props;
+
     // First ask for push notifications permissions
     await getNotificationsPermissions();
 
@@ -29,6 +33,11 @@ class NotificationModal extends Component {
       title: 'Time to go!',
       body: `Remember to visit ${place.properties.nombre}`,
     };
+
+    // If we get date passed as a string, we need to convert it to a date
+    if (typeof date === 'string') {
+      date = new Date(date);
+    }
 
     // Specify when to send the notifications
     const scheduleOptions = {
@@ -42,6 +51,9 @@ class NotificationModal extends Component {
     );
 
     console.log(notificationId);
+
+    // Close the modal
+    setModalVisible(false);
   };
 
   setDate = newDate => {
@@ -49,6 +61,32 @@ class NotificationModal extends Component {
       chosenDate: newDate,
     });
   };
+
+  renderIOSDatePicker() {
+    const { chosenDate } = this.state;
+    const today = new Date();
+
+    return (
+      <DatePickerIOS
+        date={chosenDate}
+        minimumDate={today}
+        onDateChange={this.setDate}
+      />
+    );
+  }
+
+  renderAndroidDatePicker() {
+    const { chosenDate } = this.state;
+    const today = new Date();
+    return (
+      <DatePicker
+        style={{ width: 300 }}
+        date={chosenDate}
+        minDate={today}
+        onDateChange={date => this.setDate(date)}
+      />
+    );
+  }
 
   render() {
     const { modalVisible, setModalVisible, place } = this.props;
@@ -61,6 +99,7 @@ class NotificationModal extends Component {
           transparent={false}
           containerStyle={{ backgroundColor: Colors.tintColor }}
           visible={modalVisible}
+          onRequestClose={() => console.log('Notifications modal closed')}
         >
           <View>
             <Header backgroundColor={Colors.tintColor}>
@@ -76,8 +115,9 @@ class NotificationModal extends Component {
             </Header>
 
             <View style={Styles.container}>
-              <DatePickerIOS date={chosenDate} onDateChange={this.setDate} />
-              {/* TODO add Android DatePicker */}
+              {Platform.OS === 'ios'
+                ? this.renderIOSDatePicker()
+                : this.renderAndroidDatePicker()}
             </View>
           </View>
         </Modal>
