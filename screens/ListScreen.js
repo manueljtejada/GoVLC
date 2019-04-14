@@ -193,10 +193,6 @@ ListScreen.propTypes = {
 
 const mapStateToProps = state => ({
   places: state.places,
-  // filteredPlaces: state.places.filter(item => {
-  //   if (!item.properties) return;
-  //   return item.properties.nombre.includes(state.searchText);
-  // }),
 });
 
 const mapDispatchToProps = dispatch =>
