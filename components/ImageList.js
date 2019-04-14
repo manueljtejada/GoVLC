@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Dimensions,
+  TouchableOpacity,
+  ActionSheetIOS,
+} from 'react-native';
+import { Icon } from 'expo';
 import { Image } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import Lightbox from 'react-native-lightbox';
@@ -12,14 +19,63 @@ const styles = StyleSheet.create({
   },
 });
 
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const BASE_PADDING = 10;
+
 class ImageList extends Component {
+  renderLightboxHeader = (close, image) => (
+    <View
+      style={{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        padding: 20,
+      }}
+    >
+      <TouchableOpacity onPress={close}>
+        <Icon.Ionicons name="ios-close" color="#fff" size={32} />
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => this.shareImage(image)}>
+        <Icon.Ionicons name="ios-more" color="#fff" size={32} />
+      </TouchableOpacity>
+    </View>
+  );
+
+  renderLightboxContent = img => {
+    console.log(img.uri);
+    return (
+      <Image
+        style={{ flex: 1, width: WINDOW_WIDTH, height: WINDOW_WIDTH }}
+        resizeMode="contain"
+        source={{ uri: img.uri }}
+      />
+    );
+  };
+
+  shareImage = image => {
+    ActionSheetIOS.showShareActionSheetWithOptions(
+      {
+        url: image.uri,
+      },
+      err => {
+        console.log(err);
+        alert('An error has occured');
+      },
+      (success, method) => {
+        console.log(success);
+      }
+    );
+  };
+
   render() {
     const { images } = this.props;
-    console.log('Images: ', images);
     return (
       <View style={styles.row}>
         {images.map(img => (
-          <Lightbox key={img.id}>
+          <Lightbox
+            key={img.id}
+            renderHeader={close => this.renderLightboxHeader(close, img)}
+            renderContent={() => this.renderLightboxContent(img)}
+          >
             <Image
               source={{ uri: img.uri }}
               style={{ width: 75, height: 75, marginRight: 10 }}
