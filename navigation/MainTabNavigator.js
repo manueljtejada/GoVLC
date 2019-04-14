@@ -12,6 +12,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
 import PlaceScreen from '../screens/PlaceScreen';
+import VisitedScreen from '../screens/VisitedScreen';
 
 const GuideStack = createStackNavigator({
   List: ListScreen,
@@ -43,16 +44,19 @@ MapStack.navigationOptions = {
   ),
 };
 
-const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+const VisitedStack = createStackNavigator({
+  Visited: VisitedScreen,
+  Place: PlaceScreen,
 });
 
-SettingsStack.navigationOptions = {
-  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Settings" />,
+VisitedStack.navigationOptions = {
+  tabBarLabel: ({ focused }) => <TabLabel focused={focused} name="Visited" />,
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+      name={
+        Platform.OS === 'ios' ? 'ios-checkmark-circle' : 'md-checkmark-circle'
+      }
     />
   ),
 };
@@ -60,5 +64,5 @@ SettingsStack.navigationOptions = {
 export default createBottomTabNavigator({
   GuideStack,
   MapStack,
-  SettingsStack,
+  VisitedStack,
 });
