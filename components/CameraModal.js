@@ -121,6 +121,7 @@ class CameraModal extends Component {
           transparent={false}
           containerStyle={{ backgroundColor: Colors.tintColor }}
           visible={modalVisible}
+          onRequestClose={() => console.log('Camera closed')}
         >
           <Camera
             ref={ref => {

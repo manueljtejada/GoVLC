@@ -36,6 +36,7 @@ class Filters extends Component {
           transparent={false}
           containerStyle={{ backgroundColor: Colors.tintColor }}
           visible={modalVisible}
+          onRequestClose={() => console.log('Filters modal closed')}
         >
           <ScrollView>
             <Header backgroundColor={Colors.tintColor}>
