@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
     marginVertical: 20,
-    justifyContent: 'space-evenly',
   },
 });
 
@@ -40,16 +39,13 @@ class ImageList extends Component {
     </View>
   );
 
-  renderLightboxContent = img => {
-    console.log(img.uri);
-    return (
-      <Image
-        style={{ flex: 1, width: WINDOW_WIDTH, height: WINDOW_WIDTH }}
-        resizeMode="contain"
-        source={{ uri: img.uri }}
-      />
-    );
-  };
+  renderLightboxContent = img => (
+    <Image
+      style={{ flex: 1, width: WINDOW_WIDTH, height: WINDOW_WIDTH }}
+      resizeMode="contain"
+      source={{ uri: img.uri }}
+    />
+  );
 
   shareImage = image => {
     ActionSheetIOS.showShareActionSheetWithOptions(
