@@ -265,7 +265,7 @@ class PlaceScreen extends Component {
             <View
               style={{ flexDirection: 'row', justifyContent: 'space-between' }}
             >
-              <Text style={Styles.title}>
+              <Text style={{ ...Styles.title, marginRight: 10 }}>
                 {titleCase(place.properties.nombre)}
               </Text>
 
