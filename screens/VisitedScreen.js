@@ -20,9 +20,16 @@ class VisitedScreen extends Component {
   };
 
   async componentDidMount() {
-    const visitedPlaces = await this.getVisitedPlaces();
+    let visitedPlaces = await this.getVisitedPlaces();
+    const { navigation } = this.props;
 
     this.setState({ visitedPlaces });
+
+    // Refresh the list when the user navigates to a different screen
+    this.willFocus = navigation.addListener('willFocus', async () => {
+      visitedPlaces = await this.getVisitedPlaces();
+      this.setState({ visitedPlaces });
+    });
   }
 
   goToPlaceDetail = place => {
