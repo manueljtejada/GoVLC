@@ -93,6 +93,21 @@ class PlaceScreen extends Component {
     });
   };
 
+  async componentDidUpdate(prevProps, prevState) {
+    const images = await this.getSavedImages();
+
+    if (images.length !== prevState.images.length) {
+      this.refreshImages();
+    }
+  }
+
+  refreshImages = async () => {
+    const images = await this.getSavedImages();
+    if (!images) return;
+
+    this.setState({ images });
+  };
+
   getCheckInStatus = async () => {
     const { navigation } = this.props;
     const place = navigation.getParam('place');
@@ -309,6 +324,7 @@ class PlaceScreen extends Component {
               modalVisible={cameraOpen}
               openCamera={this.openCamera}
               saveImage={this.saveImage}
+              refreshImages={this.refreshImages}
             />
             <NotificationModal
               modalVisible={reminderModalVisible}
