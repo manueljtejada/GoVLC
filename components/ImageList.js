@@ -41,7 +41,7 @@ class ImageList extends Component {
 
   renderLightboxContent = img => (
     <Image
-      style={{ flex: 1, width: WINDOW_WIDTH, height: WINDOW_WIDTH }}
+      style={{ width: WINDOW_WIDTH, height: WINDOW_WIDTH }}
       resizeMode="contain"
       source={{ uri: img.uri }}
     />
