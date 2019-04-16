@@ -95,8 +95,6 @@ class ListScreen extends Component {
       place => place[filter].toLowerCase() === value
     );
 
-    console.log('active filter: ', activeFilter);
-
     this.setState({ activeFilter, filteredPlaces });
   };
 
