@@ -7,7 +7,7 @@
 
 ```
 # Clone the repo
-git clone 
+git clone https://github.com/manueljtejada/GoVLC.git
 
 # Install dependencies
 yarn install
