@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, AsyncStorage } from 'react-native';
+import { View, Text, FlatList, AsyncStorage, StyleSheet } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 
@@ -69,7 +69,13 @@ class VisitedScreen extends Component {
     const { visitedPlaces } = this.state;
 
     if (!visitedPlaces.length) {
-      return <Text>You haven't visited any places yet.</Text>;
+      return (
+        <View style={styles.container}>
+          <Text style={styles.content}>
+            You haven't visited any places yet.
+          </Text>
+        </View>
+      );
     }
     return (
       <View>
@@ -89,6 +95,19 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch =>
   bindActionCreators(actionCreators, dispatch);
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  content: {
+    fontSize: 18,
+    textAlign: 'center',
+  },
+});
 
 export default connect(
   mapStateToProps,
