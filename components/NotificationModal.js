@@ -16,6 +16,7 @@ import PropTypes from 'prop-types';
 import { getNotificationsPermissions } from '../helpers/permissions';
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
+import { titleCase } from '../helpers/utils';
 
 class NotificationModal extends Component {
   state = {
@@ -115,6 +116,10 @@ class NotificationModal extends Component {
             </Header>
 
             <View style={Styles.container}>
+              <Text style={{ marginBottom: 10 }}>
+                Set up a reminder to visit {titleCase(place.properties.nombre)}.
+              </Text>
+              <Text style={{ marginBottom: 10 }}>Please select a date:</Text>
               {Platform.OS === 'ios'
                 ? this.renderIOSDatePicker()
                 : this.renderAndroidDatePicker()}
