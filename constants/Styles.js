@@ -40,6 +40,7 @@ export default {
   buttons: {
     primary: {
       backgroundColor: Colors.tintColor,
+      width: '100%',
     },
   },
 };
