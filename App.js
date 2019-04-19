@@ -51,7 +51,9 @@ export default class App extends React.Component {
     return (
       <Provider store={store}>
         <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          {Platform.OS === 'ios' && (
+            <StatusBar translucent barStyle="light-content" />
+          )}
           <AppNavigator screenProps={{ places }} />
         </View>
       </Provider>
