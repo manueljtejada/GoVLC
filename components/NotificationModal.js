@@ -9,7 +9,7 @@ import {
   DatePickerIOS,
 } from 'react-native';
 import { Notifications } from 'expo';
-import { Header, Button } from 'react-native-elements';
+import { Header } from 'react-native-elements';
 import DatePicker from 'react-native-datepicker';
 import PropTypes from 'prop-types';
 
