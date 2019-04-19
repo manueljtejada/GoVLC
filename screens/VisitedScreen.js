@@ -1,6 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, AsyncStorage, StyleSheet } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import {
+  View,
+  Text,
+  Image,
+  FlatList,
+  AsyncStorage,
+  StyleSheet,
+} from 'react-native';
+import { ListItem, Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 
 import { bindActionCreators } from 'redux';
@@ -8,6 +15,8 @@ import { titleCase } from '../helpers/utils';
 import Header from '../constants/Header';
 import * as actionCreators from '../redux/actions/index';
 import Colors from '../constants/Colors';
+import human from '../assets/images/human.png';
+import Styles from '../constants/Styles';
 
 class VisitedScreen extends Component {
   static navigationOptions = () => ({
@@ -71,9 +80,11 @@ class VisitedScreen extends Component {
     if (!visitedPlaces.length) {
       return (
         <View style={styles.container}>
+          <Image source={human} style={styles.image} />
           <Text style={styles.content}>
             You haven't visited any places yet.
           </Text>
+          <Button title="Keep browsing" buttonStyle={Styles.buttons.primary} />
         </View>
       );
     }
@@ -99,13 +110,17 @@ const mapDispatchToProps = dispatch =>
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
-    padding: 20,
+    flexDirection: 'column',
   },
   content: {
-    fontSize: 18,
+    fontSize: 19,
     textAlign: 'center',
+  },
+  image: {
+    width: 252,
+    height: 248,
   },
 });
 
