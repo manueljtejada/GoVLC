@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
 });
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
-const BASE_PADDING = 10;
 
 class ImageList extends Component {
   renderLightboxHeader = (close, image) => (

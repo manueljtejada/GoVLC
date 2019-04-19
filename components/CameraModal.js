@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View, Text, TouchableOpacity, Modal } from 'react-native';
 import { Camera, Permissions, Icon, ImagePicker } from 'expo';
 import { Header } from 'react-native-elements';
@@ -166,5 +167,10 @@ class CameraModal extends Component {
     );
   }
 }
+
+CameraModal.propTypes = {
+  openCamera: PropTypes.func.isRequired,
+  saveImage: PropTypes.func.isRequired,
+};
 
 export default CameraModal;

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Text } from 'react-native';
 
 import Colors from '../constants/Colors';
@@ -19,5 +20,10 @@ class TabLabel extends React.Component {
     );
   }
 }
+
+TabLabel.propTypes = {
+  name: PropTypes.string.isRequired,
+  focused: PropTypes.bool.isRequired,
+};
 
 export default TabLabel;

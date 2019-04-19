@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Icon } from 'expo';
 import Colors from '../constants/Colors';
@@ -30,5 +31,10 @@ class CheckInButton extends Component {
     );
   }
 }
+
+CheckInButton.propTypes = {
+  visited: PropTypes.bool.isRequired,
+  handlePress: PropTypes.func.isRequired,
+};
 
 export default CheckInButton;

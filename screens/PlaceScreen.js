@@ -8,7 +8,7 @@ import {
   AsyncStorage,
 } from 'react-native';
 import PropTypes from 'prop-types';
-import { ImagePicker, Icon } from 'expo';
+import { Icon } from 'expo';
 import HeaderImageScrollView, {
   TriggeringView,
 } from 'react-native-image-header-scroll-view';
@@ -18,8 +18,6 @@ import { Button, ListItem } from 'react-native-elements';
 import * as actionCreators from '../redux/actions/index';
 
 import { titleCase } from '../helpers/utils';
-import { getCameraRollPermissions } from '../helpers/permissions';
-
 import Colors from '../constants/Colors';
 import Styles from '../constants/Styles';
 import ImageList from '../components/ImageList';

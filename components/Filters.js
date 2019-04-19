@@ -6,8 +6,8 @@ import {
   View,
   ScrollView,
 } from 'react-native';
-import { Header, Button } from 'react-native-elements';
-import { Icon } from 'expo';
+import PropTypes from 'prop-types';
+import { Header } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Colors from '../constants/Colors';
@@ -80,6 +80,16 @@ class Filters extends Component {
     );
   }
 }
+
+Filters.propTypes = {
+  setModalVisible: PropTypes.func,
+  modalVisible: PropTypes.bool,
+  userLocation: PropTypes.object,
+  sortPlaces: PropTypes.func,
+  filterPlaces: PropTypes.func,
+  activeFilter: PropTypes.string,
+  activeSort: PropTypes.string,
+};
 
 const mapStateToProps = state => ({
   places: state.places,

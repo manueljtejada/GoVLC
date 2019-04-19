@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { ListItem, CheckBox } from 'react-native-elements';
 import Colors from '../constants/Colors';
 
@@ -28,5 +29,11 @@ class FilterItem extends Component {
     );
   }
 }
+
+FilterItem.propTypes = {
+  title: PropTypes.string.isRequired,
+  active: PropTypes.bool,
+  handlePress: PropTypes.func.isRequired,
+};
 
 export default FilterItem;
