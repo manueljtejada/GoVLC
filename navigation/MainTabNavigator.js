@@ -7,8 +7,6 @@ import {
 
 import TabBarIcon from '../components/TabBarIcon';
 import TabLabel from '../components/TabLabel';
-import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 import ListScreen from '../screens/ListScreen';
 import MapScreen from '../screens/MapScreen';
 import PlaceScreen from '../screens/PlaceScreen';
