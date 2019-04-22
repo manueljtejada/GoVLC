@@ -18,11 +18,11 @@ yarn install
 Run this command to start the development server and start the GoVLC app in the iOS simluator:
 
 ```
-expo start --ios
+yarn ios
 ```
 
 Or, if you prefer Android:
 
 ```
-expo start --android
+yarn android
 ```
