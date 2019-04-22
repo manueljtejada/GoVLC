@@ -12,6 +12,9 @@ import MapScreen from '../screens/MapScreen';
 import PlaceScreen from '../screens/PlaceScreen';
 import VisitedScreen from '../screens/VisitedScreen';
 
+// In this file we define our main 'Routes' or 'Stacks' and
+// assign a TabBarLabel and TabBarIcon to each one
+
 const GuideStack = createStackNavigator({
   List: ListScreen,
   Place: PlaceScreen,

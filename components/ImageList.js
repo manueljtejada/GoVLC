@@ -47,6 +47,7 @@ class ImageList extends Component {
   );
 
   shareImage = image => {
+    // Open Share Sheet and pass the current image URL
     ActionSheetIOS.showShareActionSheetWithOptions(
       {
         url: image.uri,
